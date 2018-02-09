@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <context:component-scan base-package="com.emusic"/>
+
+    <mvc:annotation-driven/>
+    <mvc:resources mapping="/static/js/**" location="/WEB-INF/page/static/js/" />
+    <mvc:resources mapping="/static/css/**" location="/WEB-INF/page/static/css/" />
+	<mvc:resources mapping="/service-worker.js" location="/WEB-INF/page/service-worker.js" />
+	<mvc:resources mapping="/favicon.ico" location="/WEB-INF/page/favicon.ico"  />
+	<mvc:resources mapping="/manifest.json" location="/WEB-INF/page/manifest.json"  />
+	<mvc:resources mapping="/page/**" location="/WEB-INF/page/" />
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/page/"/>
+        <property name="suffix" value=".html"/>
+    </bean>
+    
+    <tx:annotation-driven/>
+</beans>
