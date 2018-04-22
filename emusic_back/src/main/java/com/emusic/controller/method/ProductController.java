@@ -1,4 +1,4 @@
-package com.emusic.controller;
+package com.emusic.controller.method;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.emusic.controller.util.RestPreconditions;
 import com.emusic.dao.ProductDao;
 import com.emusic.model.Product;
 
-@RequestMapping("/api")
+@RequestMapping("/product/api")
 @Controller
 @EnableWebMvc
 public class ProductController {
@@ -25,13 +26,15 @@ public class ProductController {
 	
 	@CrossOrigin
 	@RequestMapping(value="/browse", method = RequestMethod.GET)
-	public @ResponseBody List<Product> getProduct() {
+	@ResponseBody 
+	public List<Product> getProduct() {
 		return dao.getProductList();
 	}
 	
 	@CrossOrigin
-	@RequestMapping(value="/product/{id}", method = RequestMethod.GET)
-	public @ResponseBody Product getProduct(@PathVariable String id) throws IOException {
-		return dao.getProductById(id);
+	@RequestMapping(value="/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public Product getProduct(@PathVariable String id) throws IOException {
+		return RestPreconditions.checkFound(dao.getProductById(id));
 	}
 }

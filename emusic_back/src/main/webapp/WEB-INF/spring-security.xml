@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+		 xmlns:b="http://www.springframework.org/schema/beans"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+	
+	<http pattern="/js/**" security="none"/>
+	<http pattern="/static/**" security="none"/>
+	<http pattern="/img/**" security="none"/>
+	<http auto-config="true">
+		<intercept-url pattern="/" access="permitAll"/>
+		
+		<intercept-url pattern="/login**" access="permitAll"/>
+		<intercept-url pattern="/user/registration" access="hasRole('ROLE_ANONYMOUS')"/>
+		<intercept-url pattern="/user/api/getuserauth" access="permitAll"/>
+		<intercept-url pattern="/user/api/**" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/user/" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/cart/**" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/checkout**" access="hasRole('ROLE_USER')"/>
+		
+		<intercept-url pattern="/product/**" access="permitAll"/>
+		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+		
+		<form-login 
+		login-page='/login'
+		login-processing-url="/perform-login"
+		default-target-url='/'
+		authentication-failure-url='/login?error=true'
+		authentication-success-handler-ref="myAuthenticationSuccessHandler"/>
+		<logout logout-success-url="/login?logout=true" />
+		<access-denied-handler ref="customAccessDeniedHandler"/>
+		<csrf />
+	</http>
+	<b:bean class="org.springframework.security.authentication.AuthenticationTrustResolverImpl"/>
+    <b:bean id="myAuthenticationSuccessHandler"
+        class="com.emusic.controller.method.EmusicAuthenticationSuccessHandler" />
+	<b:bean name="customAccessDeniedHandler"
+  		class="com.emusic.controller.method.EmusicAccessDeniedHandler" />
+	<b:bean id="noEncoder"
+        class="org.springframework.security.crypto.password.NoOpPasswordEncoder" factory-method="getInstance"/>
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userDetailsService">
+			<password-encoder ref="noEncoder"/>
+		</authentication-provider>
+	</authentication-manager>
+	<b:bean id="userDetailsService" class="com.emusic.service.EmusicUserDetailsService" />
+
+</b:beans>

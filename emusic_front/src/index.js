@@ -3,12 +3,12 @@ import React from 'react'
 import { render } from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
 
-import Root from './container/Root'
+import { Root } from './container/Root'
 import configureStore from './store/configureStore'
 
 // import registerServiceWorker from './registerServiceWorker';
 
-import './index.css';
+import './index.global.css';
 
 const store = configureStore()
 

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 
 
-import Carousel from '../component/Carousel'
-import Features from '../component/Features'
+import Carousel from '../component/Carousel';
+import Features from '../component/Features';
 
 import './App.css';
 

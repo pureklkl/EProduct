@@ -4,6 +4,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:webflow="http://www.springframework.org/schema/webflow-config"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
@@ -11,21 +12,82 @@
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/tx
-       http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+       http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	   http://www.springframework.org/schema/webflow-config
+	   http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd">
 
-    <context:component-scan base-package="com.emusic"/>
+    <context:component-scan base-package="com.emusic.controller" />
 
-    <mvc:annotation-driven/>
+	<context:annotation-config/>
+	<!-- child does not inherit parent property placeholder -->
+	<context:property-placeholder location="classpath*:config.properties"/>  
+    <mvc:annotation-driven>
+        <mvc:argument-resolvers>
+        	<bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver"/>
+    	</mvc:argument-resolvers>
+    </mvc:annotation-driven>
+    <mvc:resources mapping="/img/**" location="file:${product.productImageLocation}"/>
+    <mvc:resources mapping="/js/**" location="/WEB-INF/page/js/" />
     <mvc:resources mapping="/static/js/**" location="/WEB-INF/page/static/js/" />
     <mvc:resources mapping="/static/css/**" location="/WEB-INF/page/static/css/" />
-	<mvc:resources mapping="/service-worker.js" location="/WEB-INF/page/service-worker.js" />
 	<mvc:resources mapping="/favicon.ico" location="/WEB-INF/page/favicon.ico"  />
-	<mvc:resources mapping="/manifest.json" location="/WEB-INF/page/manifest.json"  />
-	<mvc:resources mapping="/page/**" location="/WEB-INF/page/" />
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/page/"/>
-        <property name="suffix" value=".html"/>
-    </bean>
+	
+	<mvc:view-controller path="/login" view-name="login.html" />
+	
+	<bean id="templateResolver"
+	       class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+	  <property name="prefix" value="/WEB-INF/page/" />
+	  <property name="suffix" value=".html" />
+	  <!-- HTML is the default value, added here for the sake of clarity.          -->
+	  <property name="templateMode" value="HTML" />
+	  <!-- Template cache is true by default. Set to false if you want             -->
+	  <!-- templates to be automatically updated when modified.                    -->
+	  <property name="cacheable" value="false" />
+	</bean>
     
+	<!-- SpringTemplateEngine automatically applies SpringStandardDialect and      -->
+	<!-- enables Spring's own MessageSource message resolution mechanisms.         -->
+	<bean id="templateEngine"
+	      class="org.thymeleaf.spring4.SpringTemplateEngine">
+	  <property name="templateResolver" ref="templateResolver" />
+	  <!-- Enabling the SpringEL compiler with Spring 4.2.4 or newer can speed up  -->
+	  <!-- execution in most scenarios, but might be incompatible with specific    -->
+	  <!-- cases when expressions in one template are reused across different data -->
+	  <!-- ypes, so this flag is "false" by default for safer backwards            -->
+	  <!-- compatibility.                                                          -->
+	  <property name="enableSpringELCompiler" value="true" />
+	</bean>
+
+	<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver" id="thymeleafViewResolver">
+	  <property name="templateEngine" ref="templateEngine" />
+	  <!-- NOTE 'order' and 'viewNames' are optional -->
+	  <property name="order" value="1" />
+	  <property name="viewNames" value="*.html,*.xhtml" />
+	</bean>
+
+	<!-- Enables FlowHandler URL mapping -->
+	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+		<property name="flowExecutor" ref="flowExecutor" />
+	</bean>
+	
+	<webflow:flow-executor id="flowExecutor" flow-registry = "flowRegistry"/>
+	<webflow:flow-registry id="flowRegistry" base-path = "/WEB-INF/flows" flow-builder-services="flowBuilderServices">
+    	<webflow:flow-location path="/checkout/checkout-flow.xml" id = "checkout"/>
+	</webflow:flow-registry>
+	
+	<!-- Maps request paths to flows in the flowRegistry;
+		e.g. a path of /hotels/booking looks for a flow with id "hotels/booking" -->
+	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping" >
+		<property name="flowRegistry" ref="flowRegistry"/>
+		<property name="order" value="0"/>
+	</bean>
+
+    <webflow:flow-builder-services id="flowBuilderServices"
+        view-factory-creator="mvcViewFactoryCreator" />
+    <bean id="mvcViewFactoryCreator"
+        class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
+        <property name="viewResolvers" ref="thymeleafViewResolver" />
+    </bean>
+
     <tx:annotation-driven/>
 </beans>

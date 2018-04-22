@@ -1,21 +1,55 @@
 package com.emusic.model;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+import javax.validation.constraints.Min;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Product {
+public class Product implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4451577432355620526L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	String id;
+	
+	@NotEmpty (message="Product name should not be empty.")
 	String name;
 	String category;
 	String status;
-	String manufacotry;
+	String condition_;
+	String manufactory;
 	String description;
+	
+	@Min (value=0, message="Product price should not be negative.")
 	int price;
+	
+	@Min (value=0, message="Product unit should not be negative.")
+	int unit;
+	
+	@Transient
+	MultipartFile image;
+	
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.REMOVE, CascadeType.MERGE}, fetch = FetchType.LAZY, orphanRemoval=true)
+    @JsonIgnore
+    private List<CartItem> cartItemList;
 	
 	public String getName() {
 		return name;
@@ -29,23 +63,17 @@ public class Product {
 	public void setCategory(String catagory) {
 		this.category = catagory;
 	}
-	public String getCondition() {
-		return status;
-	}
-	public void setCondition(String condition) {
-		this.status = condition;
-	}
 	public int getPrice() {
 		return price;
 	}
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public String getManufacotry() {
-		return manufacotry;
+	public String getManufactory() {
+		return manufactory;
 	}
-	public void setManufacotry(String manufacotry) {
-		this.manufacotry = manufacotry;
+	public void setManufactory(String manufacotry) {
+		this.manufactory = manufacotry;
 	}
 	public String getDescription() {
 		return description;
@@ -59,5 +87,37 @@ public class Product {
 	public void setId(String id) {
 		this.id = id;
 	}
-
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getCondition_() {
+		return condition_;
+	}
+	public void setCondition_(String condition_) {
+		this.condition_ = condition_;
+	}
+	public int getUnit() {
+		return unit;
+	}
+	public void setUnit(int unit) {
+		this.unit = unit;
+	}
+	public MultipartFile getImage() {
+		return image;
+	}
+	public void setImage(MultipartFile image) {
+		this.image = image;
+	}
+	public List<CartItem> getCartItemList() {
+		return cartItemList;
+	}
+	public void setCartItemList(List<CartItem> cartItemList) {
+		this.cartItemList = cartItemList;
+	}
+	
+	
+	
 }

@@ -4,10 +4,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "babel-plugin-react-css-modules": "^3.3.3",
     "babel-polyfill": "^6.26.0",
     "cross-fetch": "^1.1.1",
+    "jquery": "^3.3.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-form": "^3.0.0-beta.1",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",
@@ -16,14 +19,30 @@
     "redux-thunk": "^2.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && rd /S /Q ..\\emusic\\src\\main\\webapp\\WEB-INF\\page && xcopy /f /y /e /i /s build ..\\emusic\\src\\main\\webapp\\WEB-INF\\page",
+    "__start": "react-scripts start",
+    "start": "webpack-dev-server",
+    "__build": "react-scripts build && rd /S /Q ..\\emusic\\src\\main\\webapp\\WEB-INF\\page && xcopy /f /y /e /i /s build ..\\emusic\\src\\main\\webapp\\WEB-INF\\page",
+    "build": "webpack && xcopy /f /y /e /i /s dist ..\\emusic_back\\src\\main\\webapp\\WEB-INF\\page",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.9",
     "eslint": "^4.17.0",
     "eslint-config-google": "^0.9.1",
-    "eslint-plugin-react": "^7.6.1"
+    "eslint-plugin-react": "^7.6.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^2.30.1",
+    "parallel-webpack": "^2.2.0",
+    "style-loader": "^0.20.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
   }
 }
