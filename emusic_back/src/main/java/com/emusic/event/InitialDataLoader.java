@@ -3,6 +3,8 @@ package com.emusic.event;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -11,10 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.emusic.dao.OrderStatusRepository;
 import com.emusic.dao.PrivilegeRepository;
+import com.emusic.dao.ProductDao;
 import com.emusic.dao.RoleRepository;
 import com.emusic.dao.UserDao;
 import com.emusic.model.OrderStatus;
 import com.emusic.model.Privilege;
+import com.emusic.model.Product;
 import com.emusic.model.Role;
 import com.emusic.model.User;
 
@@ -35,6 +39,9 @@ ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     OrderStatusRepository orderStatusRepository;
 	
+    @Autowired
+    ProductDao productDao;
+    
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -64,6 +71,14 @@ ApplicationListener<ContextRefreshedEvent> {
 	        userDao.updateUser(user);
         }
         alreadySetup = true;
+        
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(productDao.getEntityManager());
+        try {
+			fullTextEntityManager.createIndexer(Product.class).startAndWait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     @Transactional

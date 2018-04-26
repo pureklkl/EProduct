@@ -45,14 +45,14 @@ public class AdminController {
 	
 	@RequestMapping(value="/api/product/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteProduct(@PathVariable String id) {
+	public void deleteProduct(@PathVariable Long id) {
 		productService.deleteProduct(id);
 	}
 	
 	@RequestMapping(value="/api/product", method = RequestMethod.POST, consumes="multipart/form-data")
 	@ResponseBody
 	public Response addProduct(@Valid Product product) {
-		return  new Response(productService.addProduct(product));
+		return  new Response(productService.addProduct(product).toString());
 	}
 	
 	//for multi-part form we can only use post...

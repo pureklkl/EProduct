@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.emusic.dao.CartDao;
 import com.emusic.dao.CartItemDao;
 import com.emusic.dao.CustomerDao;
 import com.emusic.dao.CustomerOrderDao;
@@ -19,14 +20,13 @@ import com.emusic.model.Customer;
 import com.emusic.model.CustomerOrder;
 import com.emusic.model.OrderItem;
 import com.emusic.model.ShippingAddress;
-import com.emusic.service.CartService;
 import com.emusic.service.CustomerOrderService;
 
 @Service
 public class CustomerOrderServiceImpl implements CustomerOrderService {
 	
 	@Autowired
-	CartService cartService;
+	CartDao cartDao;
 	
 	@Autowired
 	CustomerOrderDao orderDao;
@@ -43,7 +43,7 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 	@Override
 	public CustomerOrder createCustomerOrderFromCart(Long cartId) {
 		// TODO Auto-generated method stub
-        Cart cart = cartService.getCartById(cartId);
+        Cart cart = cartDao.getCartById(cartId);
         
         CustomerOrder customerOrder = new CustomerOrder();
         List<OrderItem> orderItemList = new ArrayList<>();

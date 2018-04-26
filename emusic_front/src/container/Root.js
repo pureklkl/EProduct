@@ -18,14 +18,18 @@ import App from './App'
 import { Browse, AdminBrowse } from './Browse'
 import { AdminOrderListBrowse } from './AdminOrderBrowse';
 import { AdminOrder } from './AdminOrder';
-
+import { LOCAL } from '../config'
 
 import './Root.css'
 
 const BaseRoots=({ children }) => (
     <div>
       <Route exact path="/" component={ App } />
-      <Route path="/browse" component={ Browse } />
+      <Route exact path="/browse" component={ Browse } />
+      <Route path="/browse/page/:page" component={ Browse } />
+      <Route path="/browse/orderby/:field/asc/:isAsc/page/:page" component={ Browse } />
+      <Route exact path="/browse/query/:query/page/:page" component={ Browse } />
+      <Route path="/browse/query/:query/orderby/:field/asc/:isAsc/page/:page" component={ Browse } />
       <Route path="/product/:id" component={ Product } />
       <Route path="/cart" component={ Cart } />
       <Route exact path="/order" component={ OrderListBrowse } />
@@ -40,7 +44,7 @@ BaseRoots.propTypes = {
 
 export const Root = ({ store }) => (
   <Provider store={store}>
-    <Router basename="/emusic">
+    <Router basename={LOCAL}>
     <div>
       <Header />
         <BaseRoots />
@@ -57,12 +61,14 @@ Root.propTypes = {
 
 export const AdminRoot = ({ store }) => (
   <Provider store={store}>
-    <Router basename="/emusic/">
+    <Router basename={LOCAL}>
     <div>
       <AdminHeader />
         <BaseRoots>
           <Route exact path="/admin" component={ AdminPanel } />
-          <Route path="/admin/adminBrowse" component={ AdminBrowse } />
+          <Route exact path="/admin/adminBrowse" component={ AdminBrowse } />
+          <Route path="/admin/AdminBrowse/page/:page" component={ AdminBrowse } />
+          <Route path="/admin/AdminBrowse/browse/orderby/:field/asc/:isAsc/page/:page" component={ AdminBrowse } />
           <Route path="/admin/addProduct" component={ ProductAddition } />
           <Route path='/admin/editProduct/:id' component = { ProductPatch } />
           <Route path = '/admin/orderlist' component = { AdminOrderListBrowse } />

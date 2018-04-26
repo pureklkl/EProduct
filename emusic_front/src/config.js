@@ -1,7 +1,17 @@
 //put api here
-const LOCAL = "http://localhost:8080/emusic/";
 
-export const BROWSE_API = LOCAL + "product/api/browse";
+export const LOCAL = "/eproduct/";
+
+export const BROWSE_API = LOCAL + "product/api/browse/page/";//{page}
+export const SORTED_BROWSE_API = (field, isAsc, page) => { 
+  return LOCAL + `product/api/browse/orderby/${field}/asc/${isAsc}/page/${page}`;
+}
+export const QUERY_API = (query, page) => { 
+  return LOCAL + `product/api/browse/query/${query}/page/${page}`;
+}
+export const SORTED_QUERY_API = (query, field, isAsc, page) => { 
+  return LOCAL + `product/api/browse/query/${query}/orderby/${field}/asc/${isAsc}/page/${page}`;
+}
 export const PRODUCT_API = LOCAL + "product/api/";//{id}
 
 export const PRODUCT_ADD_API = LOCAL + "admin/api/product";

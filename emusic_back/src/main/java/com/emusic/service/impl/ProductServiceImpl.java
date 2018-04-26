@@ -14,23 +14,42 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductDao dao;
 	
+	final private int NUM_PER_PAGE = 20;
+	
 	@Override
-	public List<Product> getProductList() {
-		return dao.getProductList();
+	public List<Product> getProductList(long[] total) {
+		return dao.getProductList(0, NUM_PER_PAGE, total);
 	}
-
 	@Override
-	public String addProduct(Product product) {
+	public List<Product> getProductList(int page, long[] total) {
+		return dao.getProductList(page, NUM_PER_PAGE, total);
+	}
+	
+	@Override
+	public List<Product> getProductList(int page, String field, boolean isAsc, long[] total) {
+		return dao.getProductList(page, NUM_PER_PAGE, field, isAsc, total);
+	}
+	
+	public List<Product> queryProduct(String query, int page, long[] total) {
+		return dao.queryProduct(query, page, NUM_PER_PAGE, total);
+	}
+	
+	public List<Product> queryProduct(String query, int page, String orderBy, boolean isAsc, long[] total) {
+		return dao.queryProduct(query, page, NUM_PER_PAGE, orderBy, isAsc, total);
+	}
+	
+	@Override
+	public Long addProduct(Product product) {
 		return dao.addProduct(product);
 	}
 
 	@Override
-	public void deleteProduct(String id) {
+	public void deleteProduct(Long id) {
 		dao.deleteProduct(id);
 	}
 
 	@Override
-	public Product getProductById(String id) {
+	public Product getProductById(Long id) {
 		return dao.getProductById(id);
 	}
 

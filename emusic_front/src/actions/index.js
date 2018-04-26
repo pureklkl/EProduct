@@ -1,4 +1,5 @@
-import { BROWSE_API, 
+import { BROWSE_API, SORTED_BROWSE_API,
+  QUERY_API, SORTED_QUERY_API,
   PRODUCT_API, PRODUCT_ADD_API, PRODUCT_EDIT_API, PRODUCT_DELETE_API,
   USER_GETAUTH_API, 
   CART_API, CART_ITEM_API, CART_UPDATE_ITEM_API,
@@ -43,10 +44,27 @@ const requestApi = (url, payload, params={})=>(dispatch)=>{
 
 export const LOAD_BROWSE = 'LOAD_BROWSE';
 
-export const loadBrowse = (controller = {})=>{
-  const signal = controller.signal || {};
-  return (dispatch)=>requestApi(BROWSE_API, {type:LOAD_BROWSE}, signal)(dispatch);
+export const loadProductList = (page = 1, query = null, field = null, isAsc = true)=>{
+  page = parseInt(page);
+  const rpage = page - 1;
+  var url = "";
+  if(query) {
+    query = encodeURIComponent(query);
+    if(field) {
+      url = SORTED_QUERY_API(query, field, isAsc, rpage);
+    } else {
+      url = QUERY_API(query, rpage);
+    }
+  } else {
+    if(field) {
+      url = SORTED_BROWSE_API(field, isAsc, rpage);
+    } else {
+      url = BROWSE_API + rpage;
+    }
+  }
+  return (dispatch)=>requestApi(url, {type:LOAD_BROWSE, cur: page, isAsc, query, field})(dispatch);
 }
+
 
 export const LOAD_PRODUCT = 'LOAD_PRODUCT';
 
@@ -87,7 +105,7 @@ export const deleteProduct = (id)=>{
   return (dispatch) => {
         requestApi(PRODUCT_DELETE_API+id, {type:DELETE_PRODUCT}, 
         {method:'delete'})(dispatch)
-        .then(()=>loadBrowse()(dispatch))
+        .then(()=>loadProductList()(dispatch))
       };
 }
 
@@ -186,3 +204,5 @@ export const adminLoadOrderList = () => {
           {method:'get'})(dispatch);
   }
 }
+
+ 

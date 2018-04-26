@@ -3,7 +3,6 @@ package com.emusic.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,13 +11,22 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.FieldBridge;
+import org.hibernate.search.annotations.Fields;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.SortableField;
+import org.hibernate.search.annotations.Store;
+import org.hibernate.search.bridge.builtin.IntegerBridge;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Indexed
 public class Product implements Serializable {
 	/**
 	 * 
@@ -26,18 +34,48 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 4451577432355620526L;
 
 	@Id
-	@GeneratedValue(generator="system-uuid")
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
-	String id;
+	@GeneratedValue
+	Long id;
 	
+    @Fields({
+        @Field, // @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)//default value
+        @Field(name = "sorttitle", analyze = Analyze.NO, store = Store.NO, index = Index.NO)
+    })
+    @SortableField(forField = "sorttitle")
 	@NotEmpty (message="Product name should not be empty.")
-	String name;
+	String title;
+	
+    @Field
 	String category;
+	@Field
 	String status;
+	@Field
 	String condition_;
+	@Field
 	String manufactory;
+	
 	String description;
 	
+    @Fields({
+        @Field,
+        @Field(name = "sortyear", analyze = Analyze.NO, store = Store.NO, index = Index.NO)
+    })
+    @SortableField(forField = "sortyear")
+	@FieldBridge(impl = IntegerBridge.class)
+	Integer year;
+	
+    @Fields({
+        @Field,
+        @Field(name = "sortdirctor", analyze = Analyze.NO, store = Store.NO, index = Index.NO)
+    })
+    @SortableField(forField = "sortdirctor")
+	String dirctor;
+	
+	String banner_url;
+	String trailer;
+	
+	@Field(name = "sortprice", analyze = Analyze.NO, store = Store.NO, index = Index.NO)
+	@SortableField(forField = "sortprice")
 	@Min (value=0, message="Product price should not be negative.")
 	int price;
 	
@@ -47,15 +85,19 @@ public class Product implements Serializable {
 	@Transient
 	MultipartFile image;
 	
-    @OneToMany(mappedBy = "product", cascade = {CascadeType.REMOVE, CascadeType.MERGE}, fetch = FetchType.LAZY, orphanRemoval=true)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval=true)
+    @JsonIgnore
+    private List<OrderItem> orderItemList;
+	
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval=true)
     @JsonIgnore
     private List<CartItem> cartItemList;
 	
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getCategory() {
 		return category;
@@ -81,10 +123,10 @@ public class Product implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getStatus() {
@@ -116,6 +158,36 @@ public class Product implements Serializable {
 	}
 	public void setCartItemList(List<CartItem> cartItemList) {
 		this.cartItemList = cartItemList;
+	}
+	public Integer getYear() {
+		return year;
+	}
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+	public String getDirctor() {
+		return dirctor;
+	}
+	public void setDirctor(String dirctor) {
+		this.dirctor = dirctor;
+	}
+	public String getBanner_url() {
+		return banner_url;
+	}
+	public void setBanner_url(String banner_url) {
+		this.banner_url = banner_url;
+	}
+	public String getTrailer() {
+		return trailer;
+	}
+	public void setTrailer(String trailer) {
+		this.trailer = trailer;
+	}
+	public List<OrderItem> getOrderItemList() {
+		return orderItemList;
+	}
+	public void setOrderItemList(List<OrderItem> orderItemList) {
+		this.orderItemList = orderItemList;
 	}
 	
 	

@@ -41,7 +41,7 @@ public class CartServiceImpl implements CartService  {
 	}
 
 	@Override
-	public Long addItem(Cart cart, String productId, int quantity) {
+	public Long addItem(Cart cart, Long productId, int quantity) {
 		List<CartItem> cartItems = cart.getItems();
         for (CartItem cartItem : cartItems) {
         	Product product = cartItem.getProduct();

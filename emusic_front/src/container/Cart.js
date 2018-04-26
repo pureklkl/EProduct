@@ -10,6 +10,12 @@ import { CHECK_ORDER_API } from '../config';
 
 // see https://reactjs.org/docs/higher-order-components.html
 
+const cartListMapStateToProps = (state) => {
+  const { items } = state.cart;
+  return { data : items };
+}
+const ConnectedCartList = connect(cartListMapStateToProps, {deleteCartItem, changeCartItemQty})(CartList);
+
 const cartBrowseMapStateToProps = (state) => {
   const { status, items } = state.cart;
   return { status: status, productList: items };
@@ -22,14 +28,14 @@ const Header = (
     </div>
 );
 
-const ConnectedCartList = connect(()=>{return {};}, {deleteCartItem, changeCartItemQty})(CartList);
+
 const CartBrowse = connect(cartBrowseMapStateToProps, { loadBrowse: loadCart })(BaseBrowse(ConnectedCartList));
 
 const CartDom = (props)=>{
   return (
       <div className = "container">
         {Header}
-        <CartBrowse />
+        <CartBrowse {...props} />
         { props.status === SUCCESS && (props.items.length > 0 ? 
           (<div>
             <div className = "py-1">

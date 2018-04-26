@@ -5,9 +5,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeCntroller {
-	@RequestMapping({"/", "/product/{id}", "/browse", "/cart"})
+	@RequestMapping("/**")
 	public String home() {
 		System.out.println("home");
 		return "index.html";
-	}	
+	}
+	
+	@RequestMapping("/login") 
+	public String login() {
+		return "login.html";
+	}
 }

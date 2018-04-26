@@ -16,12 +16,13 @@ const user = (state = null, action) => {
 
 const productList = (state, action) => {
   if (action.type === Act.LOAD_BROWSE) {
-    return {
-      status:action.status, 
-      productList: action.res || [],
-      info: action.info || ""}
+    var nextState = Object.assign({}, action);
+    if(action.res) {
+      nextState = Object.assign(nextState, action.res);
+    }
+    return nextState;
   }
-  return state || {};
+  return state || {productList: [], total: 0, cur: 1};
 }
 
 const product = (state, action) => {
@@ -80,6 +81,7 @@ const cart = (state, action) => {
       item.price = item.product.price;
       item.name = item.product.name;
       item.id = item.product.id;
+      item.banner_url = item.product.banner_url;
       totalPrice += item.totalPrice;
       return item;
     });
@@ -113,12 +115,13 @@ const orderList = (state, action) => {
       info: action.info || ""
     };
     orderList.items.map((item) => {
-      item.nameSummary = item.items[0].product.name;
+      item.nameSummary = item.items[0].product.title;
       if(item.items.length > 1) {
         item.nameSummary += " ...etc";
       }
       item.id = item.customerOrderId;
       item.firstItemId = item.items[0].product.id;
+      item.banner_url = item.items[0].product.banner_url;
       item.statusName = item.status.name;
     });
     return orderList;
@@ -139,6 +142,7 @@ const order = (state, action) => {
         item.price = item.product.price;
         item.name = item.product.name;
         item.id = item.product.id;
+        item.banner_url = item.product.banner_url;
         return item;
       })
     }

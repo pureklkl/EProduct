@@ -13,7 +13,7 @@ var cartListHeaders = [
 
 var cartListKeys =  [
 'id', 
-'name',
+'title',
 'totalPrice',
 'price',
 'quantity',

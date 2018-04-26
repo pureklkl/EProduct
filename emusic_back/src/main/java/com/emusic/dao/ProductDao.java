@@ -7,17 +7,21 @@ import javax.persistence.criteria.Order;
 import com.emusic.model.Product;
 
 
-public interface ProductDao {
+public interface ProductDao extends Dao {
 	
-	List<Product> getProductList();
+	Long addProduct(Product product);
 	
-	List<Product> getProductList(int start, int max, List<Order> order, Product restriction, int[] total);
+	void deleteProduct(Long id);
 	
-	String addProduct(Product product);
-	
-	void deleteProduct(String id);
-	
-	Product getProductById(String id);
+	Product getProductById(Long id);
 	
 	void editProduct(Product product);
+
+	List<Product> getProductList(int page, int max, long[] total);
+
+	List<Product> getProductList(int page, int max, String orderBy, boolean isAsc, long[] total);
+	
+	List<Product> queryProduct(String query, int page, int max, long[] total);
+	
+	List<Product> queryProduct(String query, int page, int max, String orderBy, boolean isAsc, long[] total);
 }

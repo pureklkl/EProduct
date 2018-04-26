@@ -5,7 +5,14 @@ import PropTypes from 'prop-types';
 import { SUCCESS, loadOrderList } from '../actions';
 import { OrderList } from '../component/OrderList';
 import { BaseBrowse } from './Browse';
- 
+
+
+const orderListMapStateToProps = (state) => {
+  const { items } = state.orderList;
+  return { data: items };
+}
+const ConOrderList = connect(orderListMapStateToProps)(OrderList);
+
 const orderBrowseMapStateToProps = (state) => {
   const { status, items } = state.orderList;
   return { status: status, productList: items };
@@ -13,7 +20,7 @@ const orderBrowseMapStateToProps = (state) => {
 
  const OrderBrowse = 
  connect(orderBrowseMapStateToProps, 
-        { loadBrowse: loadOrderList })(BaseBrowse(OrderList));
+        { loadBrowse: loadOrderList })(BaseBrowse(ConOrderList));
 
 const Header = (
     <div className="page-header py-3 pt-md-5 pb-md-4 mx-auto">
@@ -26,7 +33,7 @@ const Header = (
   return (
       <div className = "container">
         {Header}
-        <OrderBrowse />
+        <OrderBrowse {...props} />
         { props.status === SUCCESS && props.items.length == 0 && 
           (<p>You have no order yet.</p>)
         }

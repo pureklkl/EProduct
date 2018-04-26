@@ -26,13 +26,13 @@
         	<bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver"/>
     	</mvc:argument-resolvers>
     </mvc:annotation-driven>
-    <mvc:resources mapping="/img/**" location="file:${product.productImageLocation}"/>
-    <mvc:resources mapping="/js/**" location="/WEB-INF/page/js/" />
-    <mvc:resources mapping="/static/js/**" location="/WEB-INF/page/static/js/" />
-    <mvc:resources mapping="/static/css/**" location="/WEB-INF/page/static/css/" />
-	<mvc:resources mapping="/favicon.ico" location="/WEB-INF/page/favicon.ico"  />
+    <mvc:resources mapping="/img/**" location="file:${product.productImageLocation}" order="-2"/>
+    <mvc:resources mapping="/js/**" location="/WEB-INF/page/js/" order="-2"/>
+    <mvc:resources mapping="/static/js/**" location="/WEB-INF/page/static/js/" order="-2"/>
+    <mvc:resources mapping="/static/css/**" location="/WEB-INF/page/static/css/" order="-2"/>
+    <mvc:resources mapping="/static/font/**" location="/WEB-INF/page/static/font/" order="-2"/>
+	<mvc:resources mapping="/favicon.jpg" location="/WEB-INF/page/favicon.jpg"  order="-2"/>
 	
-	<mvc:view-controller path="/login" view-name="login.html" />
 	
 	<bean id="templateResolver"
 	       class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
@@ -79,7 +79,7 @@
 		e.g. a path of /hotels/booking looks for a flow with id "hotels/booking" -->
 	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping" >
 		<property name="flowRegistry" ref="flowRegistry"/>
-		<property name="order" value="0"/>
+		<property name="order" value="-1"/>
 	</bean>
 
     <webflow:flow-builder-services id="flowBuilderServices"

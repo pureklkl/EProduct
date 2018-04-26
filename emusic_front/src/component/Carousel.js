@@ -13,34 +13,13 @@ class Carousel extends Component {
           </ol>
           <div className="carousel-inner">
             <div className="carousel-item active" styleName="carousel-item">
-              <img className="first-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="First slide" />
-              <div className="container">
-                <div styleName="carousel-caption" className="carousel-caption text-left">
-                  <h1>Example headline.</h1>
-                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                  <p><a className="btn btn-lg btn-primary" href="#class1" role="button">Sign up today</a></p>
-                </div>
-              </div>
+              <img className="first-slide" src="http://ia.imdb.com/media/imdb/01/I/05/30/21m.jpg" alt="First slide" />
             </div>
             <div className="carousel-item" styleName="carousel-item">
-              <img className="second-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Second slide" />
-              <div className="container">
-                <div styleName="carousel-caption" className="carousel-caption"> 
-                  <h1>Another example headline.</h1>
-                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                  <p><a className="btn btn-lg btn-primary" href="#class2" role="button">Learn more</a></p>
-                </div>
-              </div>
+              <img className="second-slide" src="http://tecfa.unige.ch/etu/LME/0001/fernandez-trueba/projet/images/amelie.jpg" alt="Second slide" />
             </div>
             <div className="carousel-item" styleName="carousel-item">
-              <img className="third-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide" />
-              <div className="container">
-                <div styleName="carousel-caption" className="text-right carousel-caption">
-                  <h1>One more for good measure.</h1>
-                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                  <p><a className="btn btn-lg btn-primary" href="#class3" role="button">Browse gallery</a></p>
-                </div>
-              </div>
+              <img className="third-slide" src="http://www.carosta.com/shrek-dvd.jpg" alt="Third slide" />
             </div>
           </div>
           <a className="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">

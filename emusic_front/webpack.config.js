@@ -1,11 +1,13 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
+const base = "/eproduct/";
+
 module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "js/[name].js",
-    publicPath: "/emusic/"
+    publicPath: base
   },
   module: {
     rules: [
@@ -49,14 +51,7 @@ module.exports = {
     admin: "./src/admin.js"
   },
   devServer: {
-    port: 9000,
-    historyApiFallback: {
-    rewrites: [
-      { from: /^\/emusic\/(?!admin.html)/, to: '/emusic/' },
-      { from: /^\/emusic\/admin.html/, to: '/emusic/admin.html' },
-    ]
-}
-
+    port: 9000
   },
   plugins: [
     new HtmlWebPackPlugin({

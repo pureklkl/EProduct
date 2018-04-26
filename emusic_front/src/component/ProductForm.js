@@ -10,19 +10,28 @@ const categoryOptions = [
     value:"single"
   },
   {
-    label:"team",
-    value:"team"
+    label:"commercial",
+    value:"commercial"
   },
   {
-    label:"instrument",
-    value:"instrument"
+    label:"other",
+    value:"other"
   }
 ];
 
+const yearOptions = (()=> {
+  var end = (new Date()).getFullYear();
+  var years = [];
+  for(let year = end; year >= 1850 ; year-- ) {
+    years.push({label:year.toString(), value:year});
+  }
+  return years;
+})();
+
 const errorValidator = (values) => {
   return {
-    name:   !values.name ||
-            values.name.trim() == '' ? 'Product name should not be empty.' : null,
+    title:   !values.title ||
+            values.title.trim() == '' ? 'Product title should not be empty.' : null,
     price:  !values.price ||
             isNaN(values.price)  ||
             values.price < 0 ? 'Price must not be a non-negative number.' : null,
@@ -53,6 +62,7 @@ class ProductForm extends Component {
   submit(value) {
     value.price = parseInt(value.price);
     value.unit = parseInt(value.unit);
+    value.year = parseInt(value.year);
     this.props.submit(jsonToForm(value, this.form));
   }
 
@@ -74,25 +84,46 @@ class ProductForm extends Component {
             let errors = formApi.errors;
             return (
             <form onSubmit={formApi.submitForm} id="product-addtion-form" encType='multipart/form-data'>
+              
               <div className="form-group">
-              <label htmlFor="name">Product Name</label>
-              <Text className="form-control" field="name" id="name" />
+              <label htmlFor="title">Product title</label>
+              <Text className="form-control" field="title" id="title" />
+              { errors.title != null && <div className="alert alert-danger" role="alert">{errors.title}</div> }
               </div>
-              { errors.name != null && <div className="alert alert-danger" role="alert">{errors.name}</div> }
+              
+              
               <div className="form-group">
               <label htmlFor="price">Price</label>
               <Text className="form-control" field="price" id="price" />
-              </div>
               { errors.price != null && <div className="alert alert-danger" role="alert">{errors.price}</div> }
+              </div>
+              
               <div className="form-group">
               <label htmlFor="unit">Unit</label>
               <Text className="form-control" field="unit" id="unit" />
-              </div>
               { errors.unit != null && <div className="alert alert-danger" role="alert">{errors.unit}</div> }
+              </div>
+              
               <div className="form-group">
               <label htmlFor="manufactory">Manufactory</label>
               <Text className="form-control" field="manufactory" id="manufactory" />
               </div>
+              
+              <div className="form-group">
+              <label htmlFor="dirctor">Director</label>
+              <Text className="form-control" field="dirctor" id="dirctor" />
+              </div>
+              
+              <div className="form-group">
+              <label htmlFor="banner_url">Banner Url</label>
+              <Text className="form-control" field="banner_url" id="banner_url" />
+              </div>
+
+              <div className="form-group">
+              <label htmlFor="trailer">Trailer Url</label>
+              <Text className="form-control" field="trailer" id="trailer" />
+              </div>
+
               <div className="form-group">
               <RadioGroup field='status'>
               { group =>  (
@@ -111,6 +142,7 @@ class ProductForm extends Component {
               }
               </RadioGroup>
               </div>
+              
               <div className="form-group">
               <RadioGroup field="condition_">
               { group => (
@@ -128,19 +160,28 @@ class ProductForm extends Component {
               }
               </RadioGroup>
               </div>
+              
               <div className="form-group">
               <label htmlFor="category">Category</label>
               <Select  className="custom-select form-control" field="category" id="category" options={categoryOptions} />
               </div>
+              
+              <div className="form-group">
+              <label htmlFor="year">year</label>
+              <Select  className="custom-select form-control" field="year" id="year" options={yearOptions} />
+              </div>
+
               <div className="form-group">
               <label htmlFor="description">Description</label>
               <TextArea className="form-control" field="description" id="description" />
               </div>
+              
               <div className="form-group">
                 <label htmlFor="productImage">Product Image</label>
                 <input className="form-control-file" id="productImage" type="file" 
                  onChange={e=>this.form.set('image', e.target.files[0]) }/>
               </div>
+              
               <button type="submit" className="py-2 mb-4 btn btn-primary">Submit</button>
             </form>
           )}
