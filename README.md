@@ -1,13 +1,13 @@
-A e-commercial demo web app
-based on
+View at [ypdemo.tk/eproduct](ypdemo.tk/eproduct)
 
-frontend - Bootstrap, React.js, thymeleaf
-Backend - Spring mvc, hibernate
-database - MySQL
+A e-commercial demo web app based on<br />
+frontend - Bootstrap, React.js, thymeleaf<br />
+Backend - Spring mvc, hibernate<br />
+database - MySQL<br />
 
-Features:
-User registration and Authentication 
-Shopping cart
-Order comfirmation
-Full text search for product
-Administration - Admin can add/edit/delete product and change order status 
+Features:<br />
+User registration and Authentication<br />
+Shopping cart<br />
+Order comfirmation<br />
+Full text search for product<br />
+Administration - Admin can add/edit/delete product and change order status<br />
