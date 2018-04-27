@@ -1,6 +1,7 @@
 //put api here
 
 export const LOCAL = "/eproduct/";
+export const LOCAL_IMG = "/eproduct/img/";
 
 export const BROWSE_API = LOCAL + "product/api/browse/page/";//{page}
 export const SORTED_BROWSE_API = (field, isAsc, page) => { 

@@ -10,7 +10,6 @@
 		<config>src/main/webapp/WEB-INF/applicationContext.xml</config>
 	</configs>
 	<autoconfigs>
-		<config>target/m2e-wtp/web-resources/WEB-INF/dispatcher-servlet.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

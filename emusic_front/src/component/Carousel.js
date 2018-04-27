@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+import { LOCAL_IMG } from '../config';
+import Img from './Img';
+
 import './Carousel.css'
 
 class Carousel extends Component {
@@ -13,13 +16,13 @@ class Carousel extends Component {
           </ol>
           <div className="carousel-inner">
             <div className="carousel-item active" styleName="carousel-item">
-              <img className="first-slide" src="http://ia.imdb.com/media/imdb/01/I/05/30/21m.jpg" alt="First slide" />
+              <Img className="first-slide" src={LOCAL_IMG + "slide1.jpg"} />
             </div>
             <div className="carousel-item" styleName="carousel-item">
-              <img className="second-slide" src="http://tecfa.unige.ch/etu/LME/0001/fernandez-trueba/projet/images/amelie.jpg" alt="Second slide" />
+              <Img className="second-slide" src={LOCAL_IMG + "slide2.jpg"} />
             </div>
             <div className="carousel-item" styleName="carousel-item">
-              <img className="third-slide" src="http://www.carosta.com/shrek-dvd.jpg" alt="Third slide" />
+              <Img className="third-slide" src={LOCAL_IMG + "slide3.jpg"} />
             </div>
           </div>
           <a className="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">

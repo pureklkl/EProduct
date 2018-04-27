@@ -20,7 +20,11 @@
 
 	<context:annotation-config/>
 	<!-- child does not inherit parent property placeholder -->
-	<context:property-placeholder location="classpath*:config.properties"/>  
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="location" value="classpath:config-#{systemProperties['env']}.properties"/>
+	</bean>   
     <mvc:annotation-driven>
         <mvc:argument-resolvers>
         	<bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver"/>
