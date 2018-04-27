@@ -1,4 +1,4 @@
-View at [ypdemo.tk/eproduct](ypdemo.tk/eproduct)
+View at [ypdemo.tk/eproduct](http://ypdemo.tk/eproduct/)
 
 A e-commercial demo web app based on<br />
 frontend - Bootstrap, React.js, thymeleaf<br />
