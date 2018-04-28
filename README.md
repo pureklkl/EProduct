@@ -11,3 +11,8 @@ Shopping cart<br />
 Order comfirmation<br />
 Full text search for product<br />
 Administration - Admin can add/edit/delete product and change order status<br />
+
+login as
+email: test@test.com
+password: test
+visit [ypdemo.tk/eproduct/admin](http://ypdemo.tk/eproduct/admin) to view admin panel.
